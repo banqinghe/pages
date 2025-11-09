@@ -1,0 +1,55 @@
+import { vec3 } from 'gl-matrix';
+
+export class Sphere {
+    center;
+    radius;
+    color;
+    specular;
+    constructor(center, radius, color, specular){
+        this.center = center;
+        this.radius = radius;
+        this.color = color;
+        this.specular = specular;
+    }
+}
+
+class Light {
+    intensity;
+    constructor(intensity){
+        this.intensity = intensity;
+    }
+}
+export class AmbientLight extends Light {
+    constructor(intensity){
+        super(intensity);
+    }
+}
+export class DirectionalLight extends Light {
+    direction;
+    constructor(intensity, direction){
+        super(intensity);
+        this.direction = direction;
+    }
+}
+export class PointLight extends Light {
+    position;
+    constructor(intensity, position){
+        super(intensity);
+        this.position = position;
+    }
+}
+
+export const scene = {
+    spheres: [
+        new Sphere(vec3.fromValues(0, -1, 3), 1, vec3.fromValues(255, 0, 0), 500),
+        new Sphere(vec3.fromValues(2, 0, 4), 1, vec3.fromValues(0, 0, 255), 500),
+        new Sphere(vec3.fromValues(-2, 0, 4), 1, vec3.fromValues(0, 255, 0), 10),
+        new Sphere(vec3.fromValues(0, -5001, 0), 5000, vec3.fromValues(255, 255, 0), 1000)
+    ],
+    lights: [
+        new AmbientLight(0.2),
+        new PointLight(0.6, vec3.fromValues(2, 1, 0)),
+        new DirectionalLight(0.2, vec3.fromValues(1, 4, 4)),
+    ],
+    backgroundColor: vec3.fromValues(211, 227, 253),
+};
