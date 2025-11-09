@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cos function</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main" style="width: 600px; height: 400px;"></div>
+    <script type="importmap">
+    {
+        "imports": {
+            "echarts": "https://esm.sh/echarts@6.0.0"
+        }
+    }
+    </script>
+    <script type="module">
+        import * as echarts from 'echarts';
+
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 生成数据
+        var xData = [];
+        var cosData = [];
+        var cos2Data = [];
+        var cos5Data = [];
+        var cos50Data = [];
+        var cos500Data = [];
+        var step = (Math.PI / 2) / 100; // 步长
+
+        for (var x = 0; x <= Math.PI / 2; x += step) {
+            xData.push(Number(x.toFixed(3))); // 保留三位小数
+            var cosx = Math.cos(x);
+            cosData.push(cosx);
+            cos2Data.push(Math.pow(cosx, 2));
+            cos5Data.push(Math.pow(cosx, 5));
+            cos50Data.push(Math.pow(cosx, 50));
+            cos500Data.push(Math.pow(cosx, 500));
+        }
+
+        var option = {
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['cos(x)', 'cos²(x)', 'cos⁵(x)', 'cos⁵⁰(x)', 'cos⁵⁰⁰(x)']
+            },
+            xAxis: {
+                type: 'category',
+                name: 'x',
+                data: xData,
+                axisLabel: {
+                    formatter: function (value) {
+                        // 只显示部分刻度
+                        return Number(value).toFixed(2);
+                    }
+                }
+            },
+            yAxis: {
+                type: 'value',
+                name: 'y',
+                min: 0, // y轴下限为0
+                max: 1  // y轴上限为1（可选，cos^n(x)最大值为1）
+            },
+            series: [
+                {
+                    name: 'cos(x)',
+                    type: 'line',
+                    data: cosData,
+                    smooth: true
+                },
+                {
+                    name: 'cos²(x)',
+                    type: 'line',
+                    data: cos2Data,
+                    smooth: true
+                },
+                {
+                    name: 'cos⁵(x)',
+                    type: 'line',
+                    data: cos5Data,
+                    smooth: true
+                },
+                {
+                    name: 'cos⁵⁰(x)',
+                    type: 'line',
+                    data: cos50Data,
+                    smooth: true
+                },
+                {
+                    name: 'cos⁵⁰⁰(x)',
+                    type: 'line',
+                    data: cos500Data,
+                    smooth: true
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+    </script>
+</body>
+
+</html>
